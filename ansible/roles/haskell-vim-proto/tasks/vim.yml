@@ -1,0 +1,41 @@
+---
+
+- name: create vim directories
+  file:
+    path: "/home/{{ user }}/.vim/{{ item }}"
+    state: directory
+    owner: "{{ user }}"
+  with_items:
+    - autoload
+    - bundle
+    - snippets
+    - syntax
+
+- name: get vim configs
+  get_url:
+    url: "{{ vim_config_url }}/{{ item }}"
+    dest: "/home/{{ user }}/.{{ item }}"
+    owner: "{{ user }}"
+  with_items:
+    - "vimrc"
+    - "vim/syntax/haskell.vim"
+    - "vim/syntax/cabal.vim"
+    - "vim/snippets/haskell.snippets"
+
+- name: get pathogen
+  get_url:
+    url: https://tpo.pe/pathogen.vim
+    dest: /home/{{ user }}/.vim/autoload/pathogen.vim
+    owner: "{{ user }}"
+
+- name: get plugins
+  git:
+    repo: "https://github.com/{{ item }}.git"
+    dest: "/home/{{ user }}/.vim/bundle/{{ item | basename }}"
+  with_items: "{{ vim_plugins }}"
+
+- name: build vimproc
+  make:
+    chdir: "/home/{{ user }}/.vim/bundle/vimproc.vim"
+  when: "'Shougo/vimproc.vim' in vim_plugins"
+

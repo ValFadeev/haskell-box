@@ -1,0 +1,17 @@
+---
+
+- name: update all packages to the latest version
+  apt:
+    upgrade: dist
+
+- name: install packages
+  apt:
+    name: "{{ item }}"
+  with_items: "{{ packages }}"
+
+- name: install blas dependencies
+  apt:
+    name: "{{ item }}"
+  with_items: "{{ blas_packages }}"
+  when: blas
+

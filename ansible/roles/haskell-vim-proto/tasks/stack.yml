@@ -1,0 +1,40 @@
+---
+
+- name: check if stack is already installed
+  command: bash -c "type stack >/dev/null 2>&1"
+  ignore_errors: yes
+  register: stack_response
+
+- name: download stack installer
+  get_url:
+    url: "https://get.haskellstack.org/"
+    dest: "/tmp/install_stack.sh"
+    mode: u+x
+  when: stack_response.rc == 1
+
+- name: install stack
+  shell: "/tmp/install_stack.sh"
+  when: stack_response.rc == 1
+
+- name: remove installation script
+  file:
+    path: "/tmp/install_stack.sh"
+    state: absent
+  when: stack_response.rc == 1
+
+- name: upgrade stack if already installed
+  command: "stack upgrade"
+  when: stack_response.rc == 0 and always_upgrade
+
+- name: setup stack
+  command: "stack setup --resolver={{ resolver }}"
+  become: yes
+  become_user: "{{ user }}"
+  retries: 2
+  delay: 10
+
+- name: install tools
+  command: stack install hlint ghc-mod
+  become: yes
+  become_user: "{{ user }}"
+

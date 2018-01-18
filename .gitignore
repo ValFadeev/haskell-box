@@ -1,0 +1,6 @@
+*.log
+*.retry
+*.box
+.vagrant/
+packer_cache/
+box/

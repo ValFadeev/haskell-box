@@ -1,0 +1,11 @@
+---
+
+- include_tasks: pkg.yml
+  tags: ["pkg"]
+
+- include_tasks: stack.yml
+  tags: ["stack"]
+
+- include_tasks: vim.yml
+  tags: ["vim"]
+

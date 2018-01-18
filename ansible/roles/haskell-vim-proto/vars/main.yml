@@ -1,0 +1,30 @@
+---
+
+always_upgrade: no
+blas: yes
+blas_packages:
+  - "libblas-dev"
+  - "libgsl0-dev"
+  - "libgsl2"
+  - "liblapack-dev"
+  - "pkg-config"
+packages:
+  - "git"
+  - "vim"
+resolver: "lts-9.21"
+user: vagrant
+vim_config_url: "https://raw.githubusercontent.com/sdiehl/haskell-vim-proto/master"
+vim_plugins:
+  - "ctrlpvim/ctrlp.vim"
+  - "eagletmt/ghcmod-vim"
+  - "eagletmt/neco-ghc"
+  - "ervandew/supertab"
+  - "garbas/vim-snipmate"
+  - "godlygeek/tabular"
+  - "MarcWeber/vim-addon-mw-utils"
+  - "scrooloose/nerdcommenter"
+  - "scrooloose/nerdtree"
+  - "scrooloose/syntastic"
+  - "Shougo/neocomplete.vim"
+  - "Shougo/vimproc.vim"
+  - "tomtom/tlib_vim"
